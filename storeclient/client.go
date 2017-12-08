@@ -7,7 +7,6 @@ import (
 	"math/rand"
 
 	"github.com/scottyw/grpc-example/boxes"
-
 	"google.golang.org/grpc"
 )
 

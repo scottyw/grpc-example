@@ -4,8 +4,16 @@ Compile the protobuf like this:
 
 ```
 mkdir boxes
-protoc --go_out=plugins=grpc:boxes --proto_path proto boxes.proto
-```
+protoc \
+  -I/usr/local/include \
+  -I. \
+  -I$GOPATH/src \
+  -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+  --go_out=plugins=grpc:boxes \
+  --swagger_out=logtostderr=true:boxes \
+  --grpc-gateway_out=logtostderr=true:boxes \
+  --proto_path proto boxes.proto
+ ```
 
 ### Simple RPC
 
@@ -33,4 +41,19 @@ Then run the client:
 
 ```
 go run storeclient/client.go
+```
+
+
+###
+
+Start the store sevrer and its REST counterpart - both need to be running:
+```
+go run storeserver/server.go
+go run storerestserver/rest.go
+```
+
+Now curl the REST API:
+
+```
+curl -G  http://localhost:8080/v1/CheckOnline
 ```

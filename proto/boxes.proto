@@ -1,12 +1,18 @@
 syntax = "proto3";
 
+import "google/api/annotations.proto";
+
 service BoxFactory {
     rpc CheckOpen(Empty) returns (BoolValue) {}
     rpc MakeBox(Spec) returns (Box) {}
 } 
 
 service StoreFront {
-    rpc CheckOnline(Empty) returns (BoolValue) {}
+    rpc CheckOnline(Empty) returns (BoolValue) {
+        option (google.api.http) = {
+            get: "/v1/CheckOnline"
+        };
+    }
     rpc PlaceOrder (stream Order) returns (stream Delivery) {}
 }
 

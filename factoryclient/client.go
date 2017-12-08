@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/scottyw/grpc-example/boxes"
-
 	"google.golang.org/grpc"
 )
 
@@ -15,7 +14,7 @@ func main() {
 		log.Fatalf("fail to dial: %v", err)
 	}
 	defer conn.Close()
-	client := boxes.NewBoxFactoryClient(conn)
+	client := generated.NewBoxFactoryClient(conn)
 	box, err := client.MakeBox(context.Background(), &boxes.Spec{Height: 2, Width: 3, Depth: 4})
 	if err != nil {
 		log.Fatalf("failed to make a box: %v", err)
