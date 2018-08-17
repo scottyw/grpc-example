@@ -15,14 +15,6 @@ import (
 
 //go:generate go-bindata -nometadata -nocompress -o swagger.go -pkg main ../factory/factory.swagger.json
 
-type factoryServer struct {
-}
-
-func (*factoryServer) MakeBox(context context.Context, spec *factory.BoxSpec) (*factory.Box, error) {
-	log.Println("Making a box ...")
-	return &factory.Box{Volume: spec.Depth * spec.Height * spec.Width}, nil
-}
-
 func serveSwagger(w http.ResponseWriter, r *http.Request) {
 	swagger, _ := swagger.FactoryFactorySwaggerJsonBytes()
 	w.Write(swagger)

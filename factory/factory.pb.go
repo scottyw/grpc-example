@@ -34,7 +34,7 @@ func (m *Empty) Reset()         { *m = Empty{} }
 func (m *Empty) String() string { return proto.CompactTextString(m) }
 func (*Empty) ProtoMessage()    {}
 func (*Empty) Descriptor() ([]byte, []int) {
-	return fileDescriptor_factory_73df956c31b9a577, []int{0}
+	return fileDescriptor_factory_4f061508d1031a23, []int{0}
 }
 func (m *Empty) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Empty.Unmarshal(m, b)
@@ -65,7 +65,7 @@ func (m *BoolValue) Reset()         { *m = BoolValue{} }
 func (m *BoolValue) String() string { return proto.CompactTextString(m) }
 func (*BoolValue) ProtoMessage()    {}
 func (*BoolValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_factory_73df956c31b9a577, []int{1}
+	return fileDescriptor_factory_4f061508d1031a23, []int{1}
 }
 func (m *BoolValue) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_BoolValue.Unmarshal(m, b)
@@ -103,7 +103,7 @@ func (m *StringValue) Reset()         { *m = StringValue{} }
 func (m *StringValue) String() string { return proto.CompactTextString(m) }
 func (*StringValue) ProtoMessage()    {}
 func (*StringValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_factory_73df956c31b9a577, []int{2}
+	return fileDescriptor_factory_4f061508d1031a23, []int{2}
 }
 func (m *StringValue) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_StringValue.Unmarshal(m, b)
@@ -141,7 +141,7 @@ func (m *Box) Reset()         { *m = Box{} }
 func (m *Box) String() string { return proto.CompactTextString(m) }
 func (*Box) ProtoMessage()    {}
 func (*Box) Descriptor() ([]byte, []int) {
-	return fileDescriptor_factory_73df956c31b9a577, []int{3}
+	return fileDescriptor_factory_4f061508d1031a23, []int{3}
 }
 func (m *Box) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Box.Unmarshal(m, b)
@@ -181,7 +181,7 @@ func (m *BoxSpec) Reset()         { *m = BoxSpec{} }
 func (m *BoxSpec) String() string { return proto.CompactTextString(m) }
 func (*BoxSpec) ProtoMessage()    {}
 func (*BoxSpec) Descriptor() ([]byte, []int) {
-	return fileDescriptor_factory_73df956c31b9a577, []int{4}
+	return fileDescriptor_factory_4f061508d1031a23, []int{4}
 }
 func (m *BoxSpec) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_BoxSpec.Unmarshal(m, b)
@@ -302,9 +302,9 @@ var _BoxFactory_serviceDesc = grpc.ServiceDesc{
 	Metadata: "factory.proto",
 }
 
-func init() { proto.RegisterFile("factory.proto", fileDescriptor_factory_73df956c31b9a577) }
+func init() { proto.RegisterFile("factory.proto", fileDescriptor_factory_4f061508d1031a23) }
 
-var fileDescriptor_factory_73df956c31b9a577 = []byte{
+var fileDescriptor_factory_4f061508d1031a23 = []byte{
 	// 247 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4d, 0x4b, 0x4c, 0x2e,
 	0xc9, 0x2f, 0xaa, 0xd4, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x97, 0x92, 0x49, 0xcf, 0xcf, 0x4f, 0xcf,

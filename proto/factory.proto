@@ -22,6 +22,15 @@ message BoxSpec {
     int32 depth = 3;
 }
 
+// message Service {
+//     string name = 1;
+// }
+
+// message StatusMessage {
+//     string serviceName = 1;
+//     bool ok = 2;
+// }
+
 service BoxFactory {
 
     rpc MakeBox(BoxSpec) returns (Box) {
@@ -29,5 +38,15 @@ service BoxFactory {
             get: "/v1/make-box"
         };        
     }
+
+    //
+    // curl -X POST http://localhost:8080/v1/status -H "Content-Type: application/json" -d '{"name":"database"}'
+    //
+    // rpc Status(Service) returns (StatusMessage) {
+    //     option (google.api.http) = {
+    //         post: "/v1/status"
+    //         body: "*"
+    //     };        
+    // }
 
 } 

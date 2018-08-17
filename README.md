@@ -3,13 +3,13 @@
 Start the server:
 
 ```
-go run factoryserver/server.go
+go run factoryserver/*.go
 ```
 
 Then run the client a few times:
 
 ```
-go run factoryclient/client.go
+go run factoryclient/*.go
 ```
 
 Now visit `http://localhost:8080/swagger-ui` to make REST calls interactively.
