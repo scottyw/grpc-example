@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/scottyw/grpc-example/boxes"
+	"github.com/scottyw/grpc-example/factory"
 	"google.golang.org/grpc"
 )
 
@@ -22,9 +22,9 @@ func main() {
 	}
 	log.Printf("Dialled OK ...")
 	defer conn.Close()
-	client := boxes.NewBoxFactoryClient(conn)
+	client := factory.NewBoxFactoryClient(conn)
 	log.Printf("Created BoxFactoryClient ...")
-	box, err := client.MakeBox(context.Background(), &boxes.Spec{Height: 2, Width: 3, Depth: 4})
+	box, err := client.MakeBox(context.Background(), &factory.BoxSpec{Height: 2, Width: 3, Depth: 4})
 	if err != nil {
 		log.Fatalf("Failed to make a box: %v", err)
 	}

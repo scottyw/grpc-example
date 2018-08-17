@@ -2,34 +2,79 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net"
+	"net/http"
+	"sync"
 
-	"github.com/scottyw/grpc-example/boxes"
+	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/scottyw/grpc-example/factory"
+	"github.com/scottyw/grpc-example/swagger"
 	"google.golang.org/grpc"
 )
 
-type boxFactoryServer struct {
+//go:generate go-bindata -nometadata -nocompress -o swagger.go -pkg main ../factory/factory.swagger.json
+
+type factoryServer struct {
 }
 
-func (*boxFactoryServer) CheckOpen(context context.Context, _ *boxes.Empty) (*boxes.BoolValue, error) {
-	log.Println("Checking if the factory is open ...")
-	return &boxes.BoolValue{Value: true}, nil
-}
-
-func (*boxFactoryServer) MakeBox(context context.Context, spec *boxes.Spec) (*boxes.Box, error) {
+func (*factoryServer) MakeBox(context context.Context, spec *factory.BoxSpec) (*factory.Box, error) {
 	log.Println("Making a box ...")
-	return &boxes.Box{Volume: spec.Depth * spec.Height * spec.Width}, nil
+	return &factory.Box{Volume: spec.Depth * spec.Height * spec.Width}, nil
 }
 
-func main() {
-	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", 5566))
+func serveSwagger(w http.ResponseWriter, r *http.Request) {
+	swagger, _ := swagger.FactoryFactorySwaggerJsonBytes()
+	w.Write(swagger)
+}
+
+func startGRPC() {
+	lis, err := net.Listen("tcp", "localhost:5566")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	grpcServer := grpc.NewServer()
-	boxes.RegisterBoxFactoryServer(grpcServer, &boxFactoryServer{})
-	log.Println("Ready to make boxes ...")
+	factory.RegisterBoxFactoryServer(grpcServer, &factoryServer{})
+	log.Println("Factory ready...")
 	grpcServer.Serve(lis)
+}
+
+func startHTTP() {
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+	conn, err := grpc.Dial("localhost:5566", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("fail to dial: %v", err)
+	}
+	defer conn.Close()
+	rmux := runtime.NewServeMux()
+	client := factory.NewBoxFactoryClient(conn)
+	err = factory.RegisterBoxFactoryHandlerClient(ctx, rmux, client)
+	if err != nil {
+		log.Fatal(err)
+	}
+	mux := http.NewServeMux()
+	mux.HandleFunc("/swagger.json", serveSwagger)
+	mux.Handle("/", rmux)
+	fs := http.FileServer(http.Dir("swagger-ui"))
+	mux.Handle("/swagger-ui/", http.StripPrefix("/swagger-ui", fs))
+	log.Println("REST server ready...")
+	err = http.ListenAndServe("localhost:8080", mux)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func main() {
+
+	go startGRPC()
+
+	go startHTTP()
+
+	// Block forever
+	var wg sync.WaitGroup
+	wg.Add(1)
+	wg.Wait()
+
 }

@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+
+message Empty {}
+
+message BoolValue {
+    bool value = 1;
+}
+
+message StringValue {
+    string value = 1;
+}
+
+message Box {
+    int32 volume = 2;
+}
+
+message BoxSpec {
+    int32 height = 1;
+    int32 width = 2;
+    int32 depth = 3;
+}
+
+service BoxFactory {
+
+    rpc MakeBox(BoxSpec) returns (Box) {
+        option (google.api.http) = {
+            get: "/v1/make-box"
+        };        
+    }
+
+} 
