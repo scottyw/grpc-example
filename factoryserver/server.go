@@ -9,16 +9,8 @@ import (
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/scottyw/grpc-example/factory"
-	"github.com/scottyw/grpc-example/swagger"
 	"google.golang.org/grpc"
 )
-
-//go:generate go-bindata -nometadata -nocompress -o swagger.go -pkg main ../factory/factory.swagger.json
-
-func serveSwagger(w http.ResponseWriter, r *http.Request) {
-	swagger, _ := swagger.FactoryFactorySwaggerJsonBytes()
-	w.Write(swagger)
-}
 
 func startGRPC() {
 	lis, err := net.Listen("tcp", "localhost:5566")
@@ -50,15 +42,8 @@ func startHTTP() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// Serve the swagger, swagger-ui and grpc-gateway REST bindings on 8080
-	mux := http.NewServeMux()
-	mux.HandleFunc("/swagger.json", serveSwagger)
-	mux.Handle("/", rmux)
-	fs := http.FileServer(http.Dir("swagger-ui"))
-	mux.Handle("/swagger-ui/", http.StripPrefix("/swagger-ui", fs))
 	log.Println("REST server ready...")
-	err = http.ListenAndServe("localhost:8080", mux)
+	err = http.ListenAndServe("localhost:8080", rmux)
 	if err != nil {
 		log.Fatal(err)
 	}

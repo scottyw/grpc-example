@@ -17,7 +17,8 @@ Now visit `http://localhost:8080/swagger-ui` to make REST calls interactively.
 Alternatively, use curl:
 
 ```
-curl -X POST http://localhost:8080/v1/status -H "Content-Type: application/json" -d '{"name":"database"}'
+curl -X GET "http://localhost:8080/v1/make-box?height=5&width=4&depth=3" -H "accept: application/json"
+curl -X GET "http://localhost:8080/v1/status" -H "accept: application/json"
 ```
 
 ### Regenerating code after proto file changes
