@@ -35,10 +35,4 @@ service BoxFactory {
         };        
     }
 
-    rpc Status(Empty) returns (StatusMessage) {
-        option (google.api.http) = {
-            get: "/v1/status"
-        };
-    }
-
 } 

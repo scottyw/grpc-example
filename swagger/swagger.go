@@ -98,22 +98,6 @@ var _FactoryFactorySwaggerJson = []byte(`{
           "BoxFactory"
         ]
       }
-    },
-    "/v1/status": {
-      "get": {
-        "operationId": "Status",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/StatusMessage"
-            }
-          }
-        },
-        "tags": [
-          "BoxFactory"
-        ]
-      }
     }
   },
   "definitions": {
@@ -123,18 +107,6 @@ var _FactoryFactorySwaggerJson = []byte(`{
         "volume": {
           "type": "integer",
           "format": "int32"
-        }
-      }
-    },
-    "StatusMessage": {
-      "type": "object",
-      "properties": {
-        "serviceName": {
-          "type": "string"
-        },
-        "ok": {
-          "type": "boolean",
-          "format": "boolean"
         }
       }
     }
