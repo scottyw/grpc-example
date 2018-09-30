@@ -10,15 +10,15 @@ import (
 type factoryServer struct {
 }
 
-func (*factoryServer) MakeBox(context context.Context, spec *factory.BoxSpec) (*factory.Box, error) {
+func (*factoryServer) MakeBox(context context.Context, spec *factory.BoxSpecification) (*factory.Box, error) {
 	log.Println("Making a box ...")
 	return &factory.Box{Volume: spec.Depth * spec.Height * spec.Width}, nil
 }
 
-// func (*factoryServer) Status(context context.Context, service *factory.Service) (*factory.StatusMessage, error) {
-// 	log.Printf("Checking status for %s ...", service.Name)
-// 	return &factory.StatusMessage{
-// 		ServiceName: service.Name,
-// 		Ok:          true,
-// 	}, nil
-// }
+func (*factoryServer) Status(context context.Context, service *factory.Empty) (*factory.StatusMessage, error) {
+	log.Printf("Checking status ...")
+	return &factory.StatusMessage{
+		ServiceName: "grpc-example-server",
+		Ok:          true,
+	}, nil
+}

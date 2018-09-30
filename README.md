@@ -14,6 +14,12 @@ go run factoryclient/*.go
 
 Now visit `http://localhost:8080/swagger-ui` to make REST calls interactively.
 
+Alternatively, use curl:
+
+```
+curl -X POST http://localhost:8080/v1/status -H "Content-Type: application/json" -d '{"name":"database"}'
+```
+
 ### Regenerating code after proto file changes
 
 The gRPC and REST bindings plus the swagger file are generated automatically from the proto file. The generated files are committed to the repo so you don't need to run these commands to try the code. 
