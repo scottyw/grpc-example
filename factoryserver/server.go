@@ -27,7 +27,7 @@ func startGRPC() {
 	}
 	grpcServer := grpc.NewServer()
 	factory.RegisterBoxFactoryServer(grpcServer, &factoryServer{})
-	log.Println("Factory ready...")
+	log.Println("gRPC server ready...")
 	grpcServer.Serve(lis)
 }
 
@@ -35,17 +35,23 @@ func startHTTP() {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
+
+	// Connect to the GRPC server
 	conn, err := grpc.Dial("localhost:5566", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("fail to dial: %v", err)
 	}
 	defer conn.Close()
+
+	// Register grpc-gateway
 	rmux := runtime.NewServeMux()
 	client := factory.NewBoxFactoryClient(conn)
 	err = factory.RegisterBoxFactoryHandlerClient(ctx, rmux, client)
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	// Serve the swagger, swagger-ui and grpc-gateway REST bindings on 8080
 	mux := http.NewServeMux()
 	mux.HandleFunc("/swagger.json", serveSwagger)
 	mux.Handle("/", rmux)

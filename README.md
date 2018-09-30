@@ -14,6 +14,13 @@ go run factoryclient/*.go
 
 Now visit `http://localhost:8080/swagger-ui` to make REST calls interactively.
 
+Alternatively, use curl:
+
+```
+curl -X GET "http://localhost:8080/v1/make-box?height=5&width=4&depth=3" -H "accept: application/json"
+curl -X GET "http://localhost:8080/v1/status" -H "accept: application/json"
+```
+
 ### Regenerating code after proto file changes
 
 The gRPC and REST bindings plus the swagger file are generated automatically from the proto file. The generated files are committed to the repo so you don't need to run these commands to try the code. 
