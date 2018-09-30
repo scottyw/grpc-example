@@ -14,47 +14,7 @@
   "produces": [
     "application/json"
   ],
-  "paths": {
-    "/v1/make-box": {
-      "get": {
-        "operationId": "MakeBox",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/Box"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "height",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "width",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "depth",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "tags": [
-          "BoxFactory"
-        ]
-      }
-    }
-  },
+  "paths": {},
   "definitions": {
     "Box": {
       "type": "object",

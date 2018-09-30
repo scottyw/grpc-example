@@ -29,10 +29,6 @@ message StatusMessage {
 
 service BoxFactory {
 
-    rpc MakeBox(BoxSpecification) returns (Box) {
-        option (google.api.http) = {
-            get: "/v1/make-box"
-        };        
-    }
+    rpc MakeBox(BoxSpecification) returns (Box) {}
 
 } 
