@@ -33,15 +33,4 @@ func main() {
 		log.Fatalf("Failed to make a box: %v", err)
 	}
 	log.Printf("Got a lovely box with volume %d", box.Volume)
-
-	// Use the same client to make another remote call
-	status, err := client.Status(context.Background(), &factory.Empty{})
-	if err != nil {
-		log.Fatalf("Failed to get status: %v", err)
-	}
-	if status.Ok {
-		log.Printf("Everything on the %s looks fine", status.ServiceName)
-	} else {
-		log.Printf("Everything on the %s is terrible!", status.ServiceName)
-	}
 }
