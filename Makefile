@@ -6,7 +6,7 @@ PGGG_INSTALLED := $(shell command -v protoc-gen-grpc-gateway 2> /dev/null)
 PGS_INSTALLED := $(shell command -v protoc-gen-swagger 2> /dev/null)
 PGG_INSTALLED := $(shell command -v protoc-gen-go 2> /dev/null)
 
-all: generate
+all: build
 
 install-tools:
 ifndef PROTOC_INSTALLED
@@ -30,6 +30,7 @@ endif
 
 generate: install-tools
 	@rm -rf factory
+	@rm www/swagger.json
 	@mkdir -p factory
 	@protoc \
 		-I/usr/local/include \
@@ -39,4 +40,11 @@ generate: install-tools
 		--swagger_out=logtostderr=true:factory \
 		--grpc-gateway_out=logtostderr=true:factory \
 		--proto_path proto factory.proto
-	@go generate ./...
+	@cp factory/factory.swagger.json www/swagger.json
+
+build: generate
+	@rm -rf bin
+	@mkdir -p bin
+	@go build -o bin/server factoryserver/*.go
+	@go build -o bin/client factoryclient/*.go
+	@echo "Success! Binaries can be found in 'bin' dir"

@@ -31,7 +31,7 @@ curl -X GET "http://localhost:8080/v1/status" -H "accept: application/json"
 
 ### Regenerating code after proto file changes
 
-If you make changes to the proto file then run `make` to regenerate all boilerplate code (and install the required tools if necessary):
+If you make changes to the proto file then run `make` to regenerate all boilerplate code and rebuild binaries (and install the required tools if necessary):
 
 ```
 make
