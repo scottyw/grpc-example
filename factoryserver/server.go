@@ -2,23 +2,28 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net"
 	"net/http"
+	"os"
 	"sync"
 
+	"cloud.google.com/go/firestore"
+	firebase "firebase.google.com/go"
+	"github.com/scottyw/grpc-example/factory/proto"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"github.com/scottyw/grpc-example/factory"
 	"google.golang.org/grpc"
 )
 
-func startGRPC() {
+func startGRPC(firebaseClient *firestore.Client) {
 	lis, err := net.Listen("tcp", "localhost:5566")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
+
 	grpcServer := grpc.NewServer()
-	factory.RegisterBoxFactoryServer(grpcServer, &factoryServer{})
+	factory.RegisterBoxFactoryServer(grpcServer, &FactoryServer{firebaseClient: firebaseClient})
 	log.Println("gRPC server ready ...")
 	grpcServer.Serve(lis)
 }
@@ -47,16 +52,33 @@ func startHTTP() {
 	mux := http.NewServeMux()
 	mux.Handle("/v1/", rmux)
 	mux.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("www"))))
-	log.Println("REST server ready on http://localhost:8080 ...")
-	err = http.ListenAndServe("localhost:8080", mux)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	log.Printf("REST server ready on http://0.0.0.0:%s ...", port)
+	err = http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", port), mux)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
 func main() {
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+	conf := &firebase.Config{ProjectID: "puppet-sentry-dev"}
+	app, err := firebase.NewApp(ctx, conf)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	client, err := app.Firestore(ctx)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer client.Close()
 
-	go startGRPC()
+	go startGRPC(client)
 
 	go startHTTP()
 

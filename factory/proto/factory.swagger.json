@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "factory.proto",
+    "title": "proto/factory.proto",
     "version": "version not set"
   },
   "schemes": [
@@ -15,40 +15,33 @@
     "application/json"
   ],
   "paths": {
-    "/v1/make-box": {
+    "/v1/boxes": {
       "get": {
-        "operationId": "MakeBox",
+        "operationId": "GetBoxes",
         "responses": {
           "200": {
-            "description": "A successful response.",
+            "description": "",
             "schema": {
-              "$ref": "#/definitions/Box"
+              "$ref": "#/definitions/Boxes"
             }
           }
         },
-        "parameters": [
-          {
-            "name": "height",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "width",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "depth",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
+        "tags": [
+          "BoxFactory"
+        ]
+      }
+    },
+    "/v1/make-box": {
+      "post": {
+        "operationId": "MakeBox",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Empty"
+            }
           }
-        ],
+        },
         "tags": [
           "BoxFactory"
         ]
@@ -59,7 +52,7 @@
         "operationId": "Status",
         "responses": {
           "200": {
-            "description": "A successful response.",
+            "description": "",
             "schema": {
               "$ref": "#/definitions/StatusMessage"
             }
@@ -72,14 +65,39 @@
     }
   },
   "definitions": {
-    "Box": {
+    "BoxSpecification": {
       "type": "object",
       "properties": {
-        "volume": {
+        "name": {
+          "type": "string"
+        },
+        "height": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "width": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "depth": {
           "type": "integer",
           "format": "int32"
         }
       }
+    },
+    "Boxes": {
+      "type": "object",
+      "properties": {
+        "Boxes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BoxSpecification"
+          }
+        }
+      }
+    },
+    "Empty": {
+      "type": "object"
     },
     "StatusMessage": {
       "type": "object",

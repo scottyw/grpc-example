@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/scottyw/grpc-example/factory"
+	"github.com/scottyw/grpc-example/factory/proto"
 	"google.golang.org/grpc"
 )
 
