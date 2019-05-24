@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+
+message Empty {}
+
+message BoolValue {
+    bool value = 1;
+}
+
+message StringValue {
+    string value = 1;
+}
+
+message BoxSpecification {
+    string name = 1;
+    int32 height = 2;
+    int32 width = 3;
+    int32 depth = 4;
+}
+
+message Boxes {
+    repeated BoxSpecification Boxes = 1;
+}
+
+message StatusMessage {
+    string serviceName = 1;
+    bool ok = 2;
+}
+
+service BoxFactory {
+    rpc MakeBox(BoxSpecification) returns (Empty) {
+        option (google.api.http) = {
+            post: "/v1/make-box"
+            body: "*"
+        };
+    }
+
+    rpc GetBoxes(Empty) returns (Boxes) {
+        option (google.api.http) = {
+            get: "/v1/boxes"
+        };
+    }
+
+    rpc Status(Empty) returns (StatusMessage) {
+        option (google.api.http) = {
+            get: "/v1/status"
+        };
+    }
+
+}
