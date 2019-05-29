@@ -1,4 +1,4 @@
-module github.com/scottyw/grpc-example
+module github.com/scottyw/grpc-example/F.adding-firestore
 
 require (
 	github.com/golang/protobuf v1.2.0
