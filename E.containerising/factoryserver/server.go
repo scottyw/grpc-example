@@ -14,16 +14,15 @@ import (
 	"google.golang.org/grpc"
 )
 
-func startGRPC(firebaseClient *firestore.Client, wg *sync.WaitGroup) {
+func startGRPC() {
 	lis, err := net.Listen("tcp", "localhost:5566")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
 	grpcServer := grpc.NewServer()
-	factory.RegisterBoxFactoryServer(grpcServer, &FactoryServer{firebaseClient: firebaseClient})
+	factory.RegisterBoxFactoryServer(grpcServer, &factoryServer{})
 	log.Println("gRPC server ready ...")
-	wg.Done()
 	grpcServer.Serve(lis)
 }
 
@@ -33,7 +32,7 @@ func startHTTP() {
 	defer cancel()
 
 	// Connect to the GRPC server
-	conn, err := grpc.Dial("localhost:5566", grpc.WithInsecure())
+	conn, err := grpc.Dial("localhost:5566", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("fail to dial: %v", err)
 	}
@@ -64,12 +63,7 @@ func startHTTP() {
 }
 
 func main() {
-
-	// we wait for the grpc to be active before starting the rest service
-	var grpcWg sync.WaitGroup
-	grpcWg.Add(1)
-	go startGRPC(client, &grpcWg)
-	grpcWg.Wait()
+	go startGRPC()
 
 	go startHTTP()
 

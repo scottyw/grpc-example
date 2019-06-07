@@ -1,9 +1,7 @@
-GRPC_GATEWAY_DIR := $(shell go list -f '{{ .Dir }}' -m github.com/grpc-ecosystem/grpc-gateway 2> /dev/null)
+GRPC_GATEWAY_DIR := $(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/
 GO_INSTALLED := $(shell which go)
 PROTOC_INSTALLED := $(shell which protoc)
 BINDATA_INSTALLED := $(shell which go-bindata 2> /dev/null)
-PGGG_INSTALLED := $(shell which protoc-gen-grpc-gateway 2> /dev/null)
-PGS_INSTALLED := $(shell which protoc-gen-swagger 2> /dev/null)
 PGG_INSTALLED := $(shell which protoc-gen-go 2> /dev/null)
 
 all: build
@@ -18,28 +16,18 @@ endif
 ifndef BINDATA_INSTALLED
 	@go get -u github.com/jteeuwen/go-bindata/go-bindata@master
 endif
-ifndef PGGG_INSTALLED
-	@go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-endif
-ifndef PGS_INSTALLED
-	@go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
-endif
 ifndef PGG_INSTALLED
 	@go get -u github.com/golang/protobuf/protoc-gen-go
 endif
 
-PROTOBUF_INCLUDES += -I${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis
-PROTOBUF_INCLUDES += -I${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/
-PROTOBUF_INCLUDES += -I${GOPATH}/src/
-
 generate: install-tools
 	@rm -rf factory
-	@rm www/swagger.json
+	@rm -f www/swagger.json
 	@mkdir -p factory
 	@protoc \
 		-I/usr/local/include \
 		-I. \
-		${PROTOBUF_INCLUDES} \
+		-I$(GRPC_GATEWAY_DIR)/third_party/googleapis \
 		--go_out=plugins=grpc:factory \
 		--swagger_out=logtostderr=true:factory \
 		--grpc-gateway_out=logtostderr=true:factory \
@@ -51,3 +39,6 @@ build: generate
 	@mkdir -p bin
 	@CGO_ENABLED=0 go build -o bin/server factoryserver/*.go
 	@echo "Success! Binaries can be found in 'bin' dir"
+
+image:
+	@docker build --rm -f Dockerfile -t grpc-example:latest .
