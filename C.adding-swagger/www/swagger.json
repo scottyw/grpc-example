@@ -20,7 +20,7 @@
         "operationId": "MakeBox",
         "responses": {
           "200": {
-            "description": "",
+            "description": "A successful response.",
             "schema": {
               "$ref": "#/definitions/Box"
             }
@@ -53,22 +53,6 @@
           "BoxFactory"
         ]
       }
-    },
-    "/v1/status": {
-      "get": {
-        "operationId": "Status",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/StatusMessage"
-            }
-          }
-        },
-        "tags": [
-          "BoxFactory"
-        ]
-      }
     }
   },
   "definitions": {
@@ -78,18 +62,6 @@
         "volume": {
           "type": "integer",
           "format": "int32"
-        }
-      }
-    },
-    "StatusMessage": {
-      "type": "object",
-      "properties": {
-        "serviceName": {
-          "type": "string"
-        },
-        "ok": {
-          "type": "boolean",
-          "format": "boolean"
         }
       }
     }

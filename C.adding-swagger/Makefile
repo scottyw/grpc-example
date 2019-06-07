@@ -1,4 +1,4 @@
-GRPC_GATEWAY_DIR := $(shell go list -f '{{ .Dir }}' -m github.com/grpc-ecosystem/grpc-gateway 2> /dev/null)
+GRPC_GATEWAY_DIR := $(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/
 GO_INSTALLED := $(shell which go)
 PROTOC_INSTALLED := $(shell which protoc)
 BINDATA_INSTALLED := $(shell which go-bindata 2> /dev/null)
@@ -19,10 +19,7 @@ ifndef BINDATA_INSTALLED
 	@go get -u github.com/jteeuwen/go-bindata/go-bindata@master
 endif
 ifndef PGGG_INSTALLED
-	@go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-endif
-ifndef PGS_INSTALLED
-	@go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
+	@go get -u github.com/grpc-ecosystem/grpc-gateway/...
 endif
 ifndef PGG_INSTALLED
 	@go get -u github.com/golang/protobuf/protoc-gen-go
@@ -30,7 +27,7 @@ endif
 
 generate: install-tools
 	@rm -rf factory
-	@rm www/swagger.json
+	@rm -f www/swagger.json
 	@mkdir -p factory
 	@protoc \
 		-I/usr/local/include \

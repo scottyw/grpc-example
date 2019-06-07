@@ -1,4 +1,4 @@
-GRPC_GATEWAY_DIR := $(shell go list -f '{{ .Dir }}' -m github.com/grpc-ecosystem/grpc-gateway 2> /dev/null)
+GRPC_GATEWAY_DIR := $(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/
 GO_INSTALLED := $(shell which go)
 PROTOC_INSTALLED := $(shell which protoc)
 BINDATA_INSTALLED := $(shell which go-bindata 2> /dev/null)
