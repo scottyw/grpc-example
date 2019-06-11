@@ -30,7 +30,6 @@ endif
 
 generate: install-tools
 	@rm -rf factory
-	@rm www/swagger.json
 	@mkdir -p factory
 	@protoc \
 		-I/usr/local/include \
@@ -40,7 +39,6 @@ generate: install-tools
 		--swagger_out=logtostderr=true:factory \
 		--grpc-gateway_out=logtostderr=true:factory \
 		--proto_path proto factory.proto
-	@cp factory/factory.swagger.json www/swagger.json
 
 build: generate
 	@rm -rf bin
