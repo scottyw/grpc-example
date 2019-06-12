@@ -28,12 +28,7 @@ generate: install-tools
 	@rm -rf factory
 	@mkdir -p factory
 	@protoc \
-		-I/usr/local/include \
-		-I. \
-		-I$(GRPC_GATEWAY_DIR)/third_party/googleapis \
 		--go_out=plugins=grpc:factory \
-		--swagger_out=logtostderr=true:factory \
-		--grpc-gateway_out=logtostderr=true:factory \
 		--proto_path proto factory.proto
 
 build: generate
