@@ -22,7 +22,7 @@ func (*factoryServer) StartProductionLine(spec *factory.BoxSpecification, server
 
 	for {
 		volume := int32(rand.Intn(1000))
-		log.Printf("Making a box with volumne %d ...\n", volume)
+		log.Printf("Making a box with volume %d ...\n", volume)
 		box := &factory.Box{Volume: volume}
 		err := server.Send(box)
 		if err != nil {
