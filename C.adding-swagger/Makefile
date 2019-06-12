@@ -37,6 +37,7 @@ generate: install-tools
 build: generate
 	@rm -rf bin
 	@mkdir -p bin
+	@go generate ./...
 	@go build -o bin/server factoryserver/*.go
 	@go build -o bin/client factoryclient/*.go
 	@echo "Success! Binaries can be found in 'bin' dir"
