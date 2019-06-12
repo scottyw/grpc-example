@@ -14,16 +14,11 @@ message Box {
     int32 volume = 1;
 }
 
-message StatusMessage {
-    string serviceName = 1;
-    bool ok = 2;
-}
-
 service BoxFactory {
     rpc MakeBox(BoxSpecification) returns (Box) {
         option (google.api.http) = {
             get: "/v1/make-box"
-        };        
+        };
     }
 
-} 
+}

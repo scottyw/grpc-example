@@ -1,8 +1,7 @@
-GRPC_GATEWAY_DIR := $(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/
+GRPC_GATEWAY_DIR := $(shell go list -f '{{ .Dir }}' -m github.com/grpc-ecosystem/grpc-gateway 2> /dev/null)
 GO_INSTALLED := $(shell which go)
 PROTOC_INSTALLED := $(shell which protoc)
 PGGG_INSTALLED := $(shell which protoc-gen-grpc-gateway 2> /dev/null)
-PGS_INSTALLED := $(shell which protoc-gen-swagger 2> /dev/null)
 PGG_INSTALLED := $(shell which protoc-gen-go 2> /dev/null)
 
 all: build

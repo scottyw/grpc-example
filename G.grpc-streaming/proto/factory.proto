@@ -2,6 +2,14 @@ syntax = "proto3";
 
 message Empty {}
 
+message BoolValue {
+    bool value = 1;
+}
+
+message StringValue {
+    string value = 1;
+}
+
 message BoxSpecification {
     int32 height = 1;
     int32 width = 2;
@@ -13,5 +21,9 @@ message Box {
 }
 
 service BoxFactory {
+
     rpc MakeBox(BoxSpecification) returns (Box) {}
+
+    rpc StartProductionLine(BoxSpecification) returns (stream Box) {}
+
 }
