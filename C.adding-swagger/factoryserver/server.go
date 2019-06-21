@@ -56,6 +56,7 @@ func startHTTP() {
 	mux.Handle("/swagger-ui/", http.StripPrefix("/swagger-ui", fs))
 
 	log.Println("REST server ready...")
+	log.Println("Serving Swagger at: http://localhost:8080/swagger-ui/")
 	err = http.ListenAndServe("localhost:8080", mux)
 	if err != nil {
 		log.Fatal(err)
