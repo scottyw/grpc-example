@@ -4,14 +4,6 @@ import "google/api/annotations.proto";
 
 message Empty {}
 
-message BoolValue {
-    bool value = 1;
-}
-
-message StringValue {
-    string value = 1;
-}
-
 message BoxSpecification {
     int32 height = 1;
     int32 width = 2;
@@ -28,7 +20,5 @@ message StatusMessage {
 }
 
 service BoxFactory {
-
     rpc MakeBox(BoxSpecification) returns (Box) {}
-
 } 
