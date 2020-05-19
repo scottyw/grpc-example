@@ -8,7 +8,7 @@ PGG_INSTALLED := $(shell which protoc-gen-go 2> /dev/null)
 all: build
 
 install-tools:
-ifndef PROTOC_INSTALLED
+ifndef GO_INSTALLED
 	$(error "go is not installed, please run 'brew install go'")
 endif
 ifndef PROTOC_INSTALLED
